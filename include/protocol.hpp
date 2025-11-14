@@ -3,6 +3,7 @@
 #ifndef protocol_hpp
 #define protocol_hpp
 
+#include <cassert>
 #include <cstdint>
 #include <cstddef>
 #include <vector>

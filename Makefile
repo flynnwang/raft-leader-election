@@ -7,7 +7,9 @@ HEADERS = ./include
 
 USER_DIR = ./test
 
-CPPFLAGS += -isystem $(GTEST_DIR)/include
+EXAMPLE_DIR = ./examples
+
+CPPFLAGS += -isystem $(GTEST_DIR)/include -I./include/external -DASIO_STANDALONE
 
 CXXFLAGS += -g -Wall -Wextra -pthread
 
@@ -51,3 +53,15 @@ connection_pool_test.o : $(USER_DIR)/connection_pool_test.cpp $(GTEST_HEADERS) $
 
 leader_election_test.o : $(USER_DIR)/leader_election_test.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/leader_election_test.cpp
+
+$(EXAMPLE_DIR)/leader_election: $(EXAMPLE_DIR)/leader_election.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+$(EXAMPLE_DIR)/distributed_lock: $(EXAMPLE_DIR)/distributed_lock.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+all: \
+	$(EXAMPLE_DIR)/distributed_lock \
+	$(EXAMPLE_DIR)/leader_election \
+	test
+
